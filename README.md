@@ -68,7 +68,7 @@ php -S localhost:8000
 
 Luego abre `http://localhost:8000` en tu navegador.
 
-## 📖 Páginas
+## Páginas
 
 1. **Splash** (`#splash`) - Página de bienvenida
 2. **Home** (`#home`) - Página principal con opciones

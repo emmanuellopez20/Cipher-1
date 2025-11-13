@@ -67,6 +67,141 @@
       }
     }
     
+    /* Animación de slide para splash */
+    .page.sliding-up {
+      animation: slideUp 0.6s ease-out forwards;
+    }
+    
+    @keyframes slideUp {
+      from {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+    }
+    
+    /* Página home apareciendo desde abajo */
+    .page.sliding-in {
+      animation: slideInFromBottom 0.6s ease-out forwards;
+    }
+    
+    @keyframes slideInFromBottom {
+      from {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    /* Contenedor de páginas para transición de slide */
+    .page-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    
+    /* Splash page con detección de scroll */
+    #splash {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      z-index: 10;
+      background: #000000;
+      will-change: transform;
+    }
+    
+    #splash.sliding {
+      transform: translateY(-100%);
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* Home page para aparecer desde abajo */
+    #home {
+      position: relative;
+      z-index: 1;
+      background: #0D0D0D;
+    }
+    
+    /* Estado inicial: home oculta debajo */
+    #home.preparing {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      min-height: 100vh;
+      z-index: 5;
+      transform: translateY(100%);
+      will-change: transform;
+    }
+    
+    #home.preparing.show {
+      transform: translateY(0);
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* Indicador de scroll para splash */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      color: #B0B0B0;
+      animation: bounce 2s infinite;
+      pointer-events: none;
+      z-index: 20;
+    }
+    
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateX(-50%) translateY(0);
+      }
+      50% {
+        transform: translateX(-50%) translateY(-10px);
+      }
+    }
+    
+    .scroll-indicator span {
+      font-size: 24px;
+    }
+    
+    .scroll-indicator p {
+      margin: 0;
+      font-size: 12px;
+    }
+    
+    /* Área táctil para deslizar */
+    #splash main {
+      touch-action: pan-y;
+      user-select: none;
+      height: 100%;
+      width: 100%;
+    }
+    
+    /* Animación suave para el contenido del splash mientras se desliza */
+    #splash.sliding-active {
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* Prevenir scroll mientras se anima */
+    body.sliding {
+      overflow: hidden;
+    }
+    
     /* Material Symbols */
     .material-symbols-outlined {
       font-variation-settings:
@@ -114,8 +249,11 @@
           <!-- BodyText -->
           <p class="text-[#B0B0B0] text-xl font-normal leading-normal pt-2">Explora la lógica detrás de las contraseñas seguras.</p>
         </div>
-        <!-- MetaText -->
-        <p class="text-[#B0B0B0] text-sm font-normal leading-normal pb-8">Desliza o haz scroll para continuar.</p>
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+          <span class="material-symbols-outlined">keyboard_arrow_up</span>
+          <p class="text-[#B0B0B0] text-sm font-normal leading-normal">Desliza hacia arriba</p>
+        </div>
       </div>
     </main>
   </section>
