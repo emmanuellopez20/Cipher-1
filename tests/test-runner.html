@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pruebas Unitarias - Cipher</title>
+  <style>
+    body {
+      font-family: 'Courier New', monospace;
+      background: #0D0D0D;
+      color: #EAEAEA;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    h1 {
+      color: #13ec5b;
+      border-bottom: 2px solid #13ec5b;
+      padding-bottom: 10px;
+    }
+    .test-container {
+      margin: 20px 0;
+      padding: 15px;
+      background: #1a1a1a;
+      border-radius: 5px;
+      border-left: 4px solid #13ec5b;
+    }
+    .test-pass {
+      color: #22c55e;
+    }
+    .test-fail {
+      color: #ef4444;
+    }
+    .test-summary {
+      margin-top: 30px;
+      padding: 20px;
+      background: #1a1a1a;
+      border-radius: 5px;
+      border: 2px solid #13ec5b;
+    }
+    .error {
+      color: #ef4444;
+      margin-left: 20px;
+      font-size: 0.9em;
+    }
+    button {
+      background: #13ec5b;
+      color: #0D0D0D;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 5px;
+      margin: 10px 5px;
+    }
+    button:hover {
+      background: #0fa548;
+    }
+    #results {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Pruebas Unitarias - Cipher</h1>
+  <button onclick="runTests()">Ejecutar Pruebas</button>
+  <button onclick="clearResults()">Limpiar Resultados</button>
+  <div id="results"></div>
+
+  <script type="module">
+    // Importar módulos
+    import { EntropyCalculator } from '../js/modules/entropy-calculator.js';
+    import { TimeEstimator } from '../js/modules/time-estimator.js';
+    import { PatternDetector } from '../js/modules/pattern-detector.js';
+    import { PasswordAnalyzer } from '../js/modules/password-analyzer.js';
+
+    class TestRunner {
+      constructor() {
+        this.tests = [];
+        this.passed = 0;
+        this.failed = 0;
+        this.results = [];
+      }
+
+      test(name, fn) {
+        this.tests.push({ name, fn });
+      }
+
+      async run() {
+        this.passed = 0;
+        this.failed = 0;
+        this.results = [];
+
+        for (const test of this.tests) {
+          try {
+            await test.fn();
+            this.results.push({ name: test.name, passed: true, error: null });
+            this.passed++;
+          } catch (error) {
+            this.results.push({ name: test.name, passed: false, error: error.message });
+            this.failed++;
+          }
+        }
+
+        return {
+          total: this.tests.length,
+          passed: this.passed,
+          failed: this.failed,
+          results: this.results
+        };
+      }
+
+      assert(condition, message) {
+        if (!condition) {
+          throw new Error(message || 'Assertion failed');
+        }
+      }
+
+      assertEqual(actual, expected, message) {
+        if (actual !== expected) {
+          throw new Error(message || `Expected ${expected}, but got ${actual}`);
+        }
+      }
+
+      assertTrue(condition, message) {
+        this.assert(condition, message || 'Expected true');
+      }
+
+      assertFalse(condition, message) {
+        this.assert(!condition, message || 'Expected false');
+      }
+
+      assertApproxEqual(actual, expected, tolerance = 0.1, message) {
+        if (Math.abs(actual - expected) > tolerance) {
+          throw new Error(message || `Expected approximately ${expected}, but got ${actual}`);
+        }
+      }
+    }
+
+    const runner = new TestRunner();
+
+    // Pruebas para EntropyCalculator
+    runner.test('EntropyCalculator: Contraseña vacía retorna 0', () => {
+      const entropy = EntropyCalculator.calculate('');
+      runner.assertEqual(entropy, 0, 'Entropía de cadena vacía debe ser 0');
+    });
+
+    runner.test('EntropyCalculator: Contraseña con solo minúsculas', () => {
+      const entropy = EntropyCalculator.calculate('password');
+      runner.assertTrue(entropy > 0, 'Entropía debe ser mayor que 0');
+      runner.assertApproxEqual(entropy, Math.log2(Math.pow(26, 8)), 1, 'Entropía debe ser aproximadamente log2(26^8)');
+    });
+
+    runner.test('EntropyCalculator: Contraseña con mayúsculas y minúsculas', () => {
+      const entropy = EntropyCalculator.calculate('Password');
+      runner.assertTrue(entropy > 0, 'Entropía debe ser mayor que 0');
+      const expected = Math.log2(Math.pow(52, 8));
+      runner.assertApproxEqual(entropy, expected, 1, 'Entropía debe aumentar con mayúsculas');
+    });
+
+    runner.test('EntropyCalculator: Contraseña con números', () => {
+      const entropy = EntropyCalculator.calculate('password123');
+      runner.assertTrue(entropy > 0, 'Entropía debe ser mayor que 0');
+      const expected = Math.log2(Math.pow(36, 11));
+      runner.assertApproxEqual(entropy, expected, 1, 'Entropía debe aumentar con números');
+    });
+
+    runner.test('EntropyCalculator: Contraseña con símbolos', () => {
+      const entropy = EntropyCalculator.calculate('password!');
+      runner.assertTrue(entropy > 0, 'Entropía debe ser mayor que 0');
+      const expected = Math.log2(Math.pow(58, 9));
+      runner.assertApproxEqual(entropy, expected, 1, 'Entropía debe aumentar con símbolos');
+    });
+
+    runner.test('EntropyCalculator: getCharsetInfo detecta tipos correctamente', () => {
+      const info = EntropyCalculator.getCharsetInfo('Password123!');
+      runner.assertTrue(info.hasLowercase, 'Debe detectar minúsculas');
+      runner.assertTrue(info.hasUppercase, 'Debe detectar mayúsculas');
+      runner.assertTrue(info.hasNumbers, 'Debe detectar números');
+      runner.assertTrue(info.hasSymbols, 'Debe detectar símbolos');
+      runner.assertEqual(info.size, 94, 'Tamaño del charset debe ser 94');
+    });
+
+    // Pruebas para TimeEstimator
+    runner.test('TimeEstimator: Entropía 0 retorna tiempo inmediato', () => {
+      const time = TimeEstimator.estimate(0, 'common');
+      runner.assertEqual(time, 'Inmediato', 'Tiempo para entropía 0 debe ser inmediato');
+    });
+
+    runner.test('TimeEstimator: Estima tiempo para ataque común', () => {
+      const entropy = 40;
+      const time = TimeEstimator.estimate(entropy, 'common');
+      runner.assertTrue(time !== 'Inmediato', 'Debe estimar tiempo para entropía 40');
+      runner.assertTrue(typeof time === 'string', 'Tiempo debe ser un string');
+    });
+
+    runner.test('TimeEstimator: Estima tiempo para todos los ataques', () => {
+      const entropy = 50;
+      const times = TimeEstimator.estimateAll(entropy);
+      runner.assertTrue(times.common !== undefined, 'Debe tener tiempo para ataque común');
+      runner.assertTrue(times.advanced !== undefined, 'Debe tener tiempo para ataque avanzado');
+      runner.assertTrue(times.massive !== undefined, 'Debe tener tiempo para ataque masivo');
+      runner.assertTrue(times.quantum !== undefined, 'Debe tener tiempo para ataque cuántico');
+    });
+
+    // Pruebas para PatternDetector
+    runner.test('PatternDetector: Detecta palabras comunes', () => {
+      const patterns = PatternDetector.detect('password');
+      runner.assertTrue(patterns.commonWords, 'Debe detectar "password" como palabra común');
+    });
+
+    runner.test('PatternDetector: Detecta secuencias', () => {
+      const patterns = PatternDetector.detect('abc123');
+      runner.assertTrue(patterns.sequences, 'Debe detectar secuencias');
+    });
+
+    runner.test('PatternDetector: Detecta repeticiones', () => {
+      const patterns = PatternDetector.detect('password111');
+      runner.assertTrue(patterns.repetitions, 'Debe detectar repeticiones');
+    });
+
+    runner.test('PatternDetector: Detecta patrones de teclado', () => {
+      const patterns = PatternDetector.detect('qwerty');
+      runner.assertTrue(patterns.keyboardPatterns, 'Debe detectar patrones de teclado');
+    });
+
+    runner.test('PatternDetector: Calcula penalización correctamente', () => {
+      const patterns = PatternDetector.detect('password');
+      runner.assertTrue(patterns.penalty > 0, 'Debe tener penalización para palabra común');
+      runner.assertTrue(patterns.penalty <= 10, 'Penalización no debe exceder 10');
+    });
+
+    runner.test('PatternDetector: Contraseña sin patrones tiene penalización 0', () => {
+      const patterns = PatternDetector.detect('Xk9$mP2#qR7');
+      runner.assertEqual(patterns.penalty, 0, 'Contraseña sin patrones debe tener penalización 0');
+    });
+
+    // Pruebas para PasswordAnalyzer
+    runner.test('PasswordAnalyzer: Analiza contraseña vacía', () => {
+      const analysis = PasswordAnalyzer.analyze('');
+      runner.assertEqual(analysis.length, 0, 'Longitud debe ser 0');
+      runner.assertEqual(analysis.entropy, 0, 'Entropía debe ser 0');
+      runner.assertEqual(analysis.strength.score, 0, 'Score debe ser 0');
+    });
+
+    runner.test('PasswordAnalyzer: Analiza contraseña simple', () => {
+      const analysis = PasswordAnalyzer.analyze('password');
+      runner.assertEqual(analysis.length, 8, 'Longitud debe ser 8');
+      runner.assertTrue(analysis.entropy > 0, 'Entropía debe ser mayor que 0');
+      runner.assertTrue(analysis.strength.score >= 0, 'Score debe ser >= 0');
+      runner.assertTrue(analysis.strength.score <= 100, 'Score debe ser <= 100');
+    });
+
+    runner.test('PasswordAnalyzer: Detecta variedad de caracteres', () => {
+      const analysis = PasswordAnalyzer.analyze('Password123!');
+      runner.assertTrue(analysis.variety.hasLowercase, 'Debe tener minúsculas');
+      runner.assertTrue(analysis.variety.hasUppercase, 'Debe tener mayúsculas');
+      runner.assertTrue(analysis.variety.hasNumbers, 'Debe tener números');
+      runner.assertTrue(analysis.variety.hasSymbols, 'Debe tener símbolos');
+      runner.assertEqual(analysis.variety.count, 4, 'Debe tener 4 tipos de caracteres');
+    });
+
+    runner.test('PasswordAnalyzer: Calcula fortaleza correctamente', () => {
+      const analysis = PasswordAnalyzer.analyze('Xk9$mP2#qR7');
+      runner.assertTrue(analysis.strength.score >= 70, 'Contraseña fuerte debe tener score >= 70');
+      runner.assertEqual(analysis.strength.level, 'very-strong', 'Debe ser muy fuerte');
+    });
+
+    runner.test('PasswordAnalyzer: Genera feedback', () => {
+      const analysis = PasswordAnalyzer.analyze('password');
+      runner.assertTrue(analysis.feedback.length > 0, 'Debe generar feedback');
+      runner.assertTrue(Array.isArray(analysis.feedback), 'Feedback debe ser un array');
+    });
+
+    runner.test('PasswordAnalyzer: Calcula tiempo de crackeo para todos los ataques', () => {
+      const analysis = PasswordAnalyzer.analyze('Password123!');
+      runner.assertTrue(analysis.crackTime.common !== undefined, 'Debe tener tiempo para ataque común');
+      runner.assertTrue(analysis.crackTime.advanced !== undefined, 'Debe tener tiempo para ataque avanzado');
+      runner.assertTrue(analysis.crackTime.massive !== undefined, 'Debe tener tiempo para ataque masivo');
+      runner.assertTrue(analysis.crackTime.quantum !== undefined, 'Debe tener tiempo para ataque cuántico');
+    });
+
+    runner.test('PasswordAnalyzer: Contraseña débil tiene score bajo', () => {
+      const analysis = PasswordAnalyzer.analyze('123');
+      runner.assertTrue(analysis.strength.score < 30, 'Contraseña débil debe tener score < 30');
+      runner.assertEqual(analysis.strength.level, 'weak', 'Debe ser débil');
+    });
+
+    runner.test('PasswordAnalyzer: Contraseña fuerte tiene score alto', () => {
+      const analysis = PasswordAnalyzer.analyze('Xk9$mP2#qR7wL4@nB5');
+      runner.assertTrue(analysis.strength.score >= 70, 'Contraseña fuerte debe tener score >= 70');
+      runner.assertEqual(analysis.strength.level, 'very-strong', 'Debe ser muy fuerte');
+    });
+
+    // Funciones globales para el botón
+    window.runTests = async function() {
+      const resultsDiv = document.getElementById('results');
+      resultsDiv.innerHTML = '<p>Ejecutando pruebas...</p>';
+
+      const result = await runner.run();
+
+      let html = '<div class="test-summary">';
+      html += '<h2>Resultados de las Pruebas</h2>';
+      html += `<p>Total: ${result.total}</p>`;
+      html += `<p class="test-pass">Pasadas: ${result.passed}</p>`;
+      html += `<p class="test-fail">Fallidas: ${result.failed}</p>`;
+      html += '</div>';
+
+      html += '<h3>Detalles:</h3>';
+      result.results.forEach(test => {
+        html += '<div class="test-container">';
+        if (test.passed) {
+          html += `<p class="test-pass">[PASS] ${test.name}</p>`;
+        } else {
+          html += `<p class="test-fail">[FAIL] ${test.name}</p>`;
+          html += `<p class="error">Error: ${test.error}</p>`;
+        }
+        html += '</div>';
+      });
+
+      resultsDiv.innerHTML = html;
+    };
+
+    window.clearResults = function() {
+      document.getElementById('results').innerHTML = '';
+    };
+
+    // Ejecutar pruebas automáticamente al cargar la página
+    window.addEventListener('DOMContentLoaded', () => {
+      console.log('Pruebas cargadas. Haz clic en "Ejecutar Pruebas" para comenzar.');
+    });
+  </script>
+</body>
+</html>
+

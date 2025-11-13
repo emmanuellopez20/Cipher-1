@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Cipher - Password Strength Education</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  
+  <!-- Material Symbols -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+  
+  <!-- Tailwind Config -->
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#13ec5b",
+            "background-light": "#f6f8f6",
+            "background-dark": "#0D0D0D",
+          },
+          fontFamily: {
+            "display": ["Space Grotesk", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+        },
+      },
+    }
+  </script>
+  
+  <!-- Estilos Comunes -->
+  <style>
+    /* Estilos para navegación entre páginas */
+    .page {
+      display: none;
+    }
+    
+    .page.active {
+      display: block;
+    }
+    
+    /* Transiciones suaves */
+    .page {
+      animation: fadeIn 0.3s ease-in-out;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    
+    /* Material Symbols */
+    .material-symbols-outlined {
+      font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24;
+    }
+    
+    /* Blinking cursor */
+    .blinking-cursor {
+      width: 8px;
+      height: 1.25rem;
+      background-color: white;
+      animation: blink 1s step-end infinite;
+    }
+    
+    @keyframes blink {
+      from, to { background-color: transparent }
+      50% { background-color: white; }
+    }
+    
+    /* Body styles */
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+  </style>
+</head>
+<body class="font-display bg-background-dark">
+  
+  <!-- ============================================ -->
+  <!-- PÁGINA 1: SPLASH -->
+  <!-- ============================================ -->
+  <section id="splash" class="page active">
+    <main class="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden p-4">
+      <!-- Background Padlock Icon -->
+      <div aria-hidden="true" class="absolute inset-0 flex items-center justify-center">
+        <span class="material-symbols-outlined text-white/5 text-[400px] md:text-[500px] lg:text-[600px] select-none">lock</span>
+      </div>
+      <!-- Content Container -->
+      <div class="relative z-10 flex h-full flex-col items-center justify-center text-center">
+        <div class="flex flex-col items-center justify-center flex-grow">
+          <!-- HeadlineText -->
+          <h1 class="text-primary tracking-wide text-6xl font-bold leading-tight">CIPHER</h1>
+          <!-- BodyText -->
+          <p class="text-[#B0B0B0] text-xl font-normal leading-normal pt-2">Explora la lógica detrás de las contraseñas seguras.</p>
+        </div>
+        <!-- MetaText -->
+        <p class="text-[#B0B0B0] text-sm font-normal leading-normal pb-8">Desliza o haz scroll para continuar.</p>
+      </div>
+    </main>
+  </section>
+  
+  <!-- ============================================ -->
+  <!-- PÁGINA 2: HOME -->
+  <!-- ============================================ -->
+  <section id="home" class="page">
+    <div class="relative flex h-auto min-h-screen w-full flex-col bg-background-dark group/design-root overflow-x-hidden">
+      <div class="layout-container flex h-full grow flex-col">
+        <div class="px-4 md:px-10 lg:px-20 xl:px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+            <p class="text-white text-base font-normal leading-normal pb-3 pt-1 px-4">&gt; cipher@web:~$</p>
+            <div class="flex flex-wrap justify-between gap-3 p-4">
+              <div class="flex min-w-72 flex-col gap-3">
+                <p class="text-white text-4xl font-bold leading-tight tracking-[-0.033em]">Bienvenido a Cipher.</p>
+                <p class="text-[#cccccc] text-base font-normal leading-normal">An educational tool to learn about password strength and cybersecurity.</p>
+              </div>
+            </div>
+            <div class="px-4 py-4">
+              <hr class="border-t border-white w-full"/>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
+              <div class="flex flex-1 gap-4 rounded-none border border-transparent p-4 flex-col bg-background-dark hover:border-white transition-colors duration-300">
+                <div class="text-white">
+                  <span class="material-symbols-outlined" style="font-size: 24px;">lock</span>
+                </div>
+                <div class="flex flex-col gap-1 grow">
+                  <h2 class="text-white text-base font-bold leading-tight">Fortaleza de Contraseñas</h2>
+                  <p class="text-[#cccccc] text-sm font-normal leading-normal">Learn how to create and evaluate strong passwords.</p>
+                </div>
+                <div class="flex mt-4">
+                  <button data-navigate="intro" class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-none h-12 px-5 bg-primary text-background-dark text-base font-bold leading-normal tracking-[0.015em] border border-primary hover:bg-transparent hover:text-primary transition-colors duration-300">
+                    <span class="truncate">Iniciar ejercicio</span>
+                  </button>
+                </div>
+              </div>
+              <div class="flex flex-1 gap-4 rounded-none border border-transparent p-4 flex-col bg-background-dark hover:border-white transition-colors duration-300">
+                <div class="text-white">
+                  <span class="material-symbols-outlined" style="font-size: 24px;">key</span>
+                </div>
+                <div class="flex flex-col gap-1 grow">
+                  <h2 class="text-white text-base font-bold leading-tight">Cifrado y Descifrado</h2>
+                  <p class="text-[#cccccc] text-sm font-normal leading-normal">Próximamente</p>
+                </div>
+                <div class="flex mt-4">
+                  <button class="flex w-full cursor-not-allowed items-center justify-center overflow-hidden rounded-none h-12 px-5 bg-transparent text-[#cccccc] text-base font-bold leading-normal tracking-[0.015em] border border-[#cccccc] opacity-50">
+                    <span class="truncate">Próximamente</span>
+                  </button>
+                </div>
+              </div>
+              <div class="flex flex-1 gap-4 rounded-none border border-transparent p-4 flex-col bg-background-dark hover:border-white transition-colors duration-300">
+                <div class="text-white">
+                  <span class="material-symbols-outlined" style="font-size: 24px;">menu_book</span>
+                </div>
+                <div class="flex flex-col gap-1 grow">
+                  <h2 class="text-white text-base font-bold leading-tight">Recursos y Guías</h2>
+                  <p class="text-[#cccccc] text-sm font-normal leading-normal">Access guides, articles, and best practices for password security.</p>
+                </div>
+                <div class="flex mt-4">
+                  <button data-navigate="libre" class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-none h-12 px-5 bg-primary text-background-dark text-base font-bold leading-normal tracking-[0.015em] border border-primary hover:bg-transparent hover:text-primary transition-colors duration-300">
+                    <span class="truncate">Ver recursos</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <footer class="flex flex-col gap-6 px-5 py-10 mt-auto text-center @container">
+              <p class="text-[#cccccc] text-sm font-normal leading-normal">Cipher © 2025 — Proyecto educativo.</p>
+            </footer>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- ============================================ -->
+  <!-- PÁGINA 3: INTRO -->
+  <!-- ============================================ -->
+  <section id="intro" class="page">
+    <div class="relative flex min-h-screen w-full flex-col p-4 sm:p-6 md:p-8">
+      <div class="flex-grow flex flex-col justify-center">
+        <div class="w-full max-w-4xl mx-auto px-4 relative">
+          <div class="absolute top-0 right-4 hidden md:block">
+            <svg class="w-20 h-20 text-white" data-alt="Silhouette of a thief with keys" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12.5 10H14v1.5h-1.5z"></path><path clip-rule="evenodd" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM6 13.25c0-.97.78-1.75 1.75-1.75h1.5c.97 0 1.75.78 1.75 1.75V15H6v-1.75zm1.75-3c.69 0 1.25.56 1.25 1.25V13H6.5v-1.5c0-.69.56-1.25 1.25-1.25zM12.5 7H11V5.5h1.5V7zm3.11 6.36c.4-.29.64-.78.64-1.31V10c0-1.1-.9-2-2-2h-1.5V6.5h3V5H11v3.5h1.5V10h1.25v2.05c0 .53-.24 1.02-.64 1.31l-.81.59c-.49.36-1.16.4-1.7.12l-2.03-1.01c-.4-.2-.88-.2-1.28 0l-2.03 1.01c-.54.27-1.21.24-1.7-.12l-.81-.59c-.4-.29-.64-.78-.64-1.31V10.5H5v1.55c0 1.21.69 2.29 1.78 2.78l2.03 1.01c.71.36 1.53.36 2.24 0l2.03-1.01c1.09-.49 1.78-1.57 1.78-2.78v-1.5h-1.25l.81.59z" fill-rule="evenodd"></path>
+            </svg>
+          </div>
+          <div class="flex flex-col gap-2">
+            <h2 class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em] pt-5 pb-3">Fortaleza de Contraseñas</h2>
+            <p class="text-white text-base font-normal leading-normal">&gt; Bienvenido a Cipher. Vamos a aprender sobre la fortaleza de las contraseñas.</p>
+            <p class="text-white text-base font-normal leading-normal">&gt; Para comenzar, por favor, introduce tu nombre a continuación.</p>
+            <div class="flex items-center gap-2 mt-2">
+              <p class="text-white text-base font-medium leading-normal">&gt;</p>
+              <div class="flex-1 max-w-md">
+                <div class="flex items-center">
+                  <input id="user-name-input" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden text-white focus:outline-0 focus:ring-0 border-0 bg-transparent p-0 placeholder:text-neutral-400 text-base font-normal leading-normal" placeholder="Escribe tu nombre aquí." value=""/>
+                  <div class="blinking-cursor"></div>
+                </div>
+              </div>
+            </div>
+            <div id="intro-message" class="mt-2 hidden">
+              <p class="text-white text-base font-normal leading-normal">&gt; Hola, <span id="user-name-display"></span>! No te preocupes, no guardamos ninguna información.</p>
+              <p class="text-white text-base font-normal leading-normal">&gt; Presiona Enter o haz clic en "Continuar" para comenzar.</p>
+              <button data-navigate="exercise" class="mt-4 px-4 py-2 bg-primary text-background-dark font-bold rounded hover:bg-transparent hover:text-primary border border-primary transition-colors duration-300">Continuar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- ============================================ -->
+  <!-- PÁGINA 4: EXERCISE -->
+  <!-- ============================================ -->
+  <section id="exercise" class="page">
+    <div class="relative flex min-h-screen w-full flex-col font-display dark">
+      <div class="flex h-full grow flex-col">
+        <main class="flex flex-1 justify-center py-5 px-4 sm:px-8 md:px-20 lg:px-40">
+          <div class="flex w-full max-w-[960px] flex-col">
+            <div class="flex flex-wrap justify-between gap-3 p-4">
+              <div class="flex min-w-72 flex-col gap-3">
+                <p class="text-white text-4xl font-black leading-tight tracking-[-0.033em]">&gt; aprender fortaleza-contraseña</p>
+                <p class="text-[#888888] text-base font-normal leading-normal">La fortaleza de una contraseña depende de la <span class="text-[#facc15]">Longitud</span>, la <span class="text-[#facc15]">Variedad de caracteres</span> y la <span class="text-[#facc15]">Ausencia de patrones comunes</span>.</p>
+              </div>
+            </div>
+            <div class="flex flex-col gap-4 px-4 py-3">
+              <label class="flex flex-col flex-1">
+                <input id="exercise-password-input" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded border border-white/20 bg-transparent focus:border-white h-14 placeholder:text-[#888888] p-[15px] text-base font-normal leading-normal text-white focus:outline-none focus:ring-0" placeholder="Escribe una contraseña de ejemplo." value="contraseña123"/>
+              </label>
+            </div>
+            <div class="p-4 grid grid-cols-[30%_1fr] gap-x-6">
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-white/20 py-5">
+                <p class="text-[#888888] text-sm font-normal leading-normal">Longitud:</p>
+                <p id="exercise-length" class="text-white text-sm font-normal leading-normal">13</p>
+              </div>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-white/20 py-5">
+                <p class="text-[#888888] text-sm font-normal leading-normal">Variedad de caracteres:</p>
+                <p id="exercise-variety" class="text-white text-sm font-normal leading-normal">Incluye minúsculas, números</p>
+              </div>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-white/20 py-5">
+                <p class="text-[#888888] text-sm font-normal leading-normal">Entropía:</p>
+                <p id="exercise-entropy" class="text-white text-sm font-normal leading-normal">52 bits</p>
+              </div>
+              <div class="col-span-2 grid grid-cols-subgrid border-t border-t-white/20 border-b border-b-white/20 py-5">
+                <p class="text-[#888888] text-sm font-normal leading-normal">Tiempo para descifrar:</p>
+                <p id="exercise-crack-time" class="text-white text-sm font-normal leading-normal">~4 Días</p>
+              </div>
+            </div>
+            <div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-4 mt-8">
+              <div class="flex flex-1 gap-3 p-4 flex-col items-center text-center">
+                <span class="material-symbols-outlined text-white text-3xl">lock</span>
+                <div class="flex flex-col gap-1">
+                  <h2 class="text-white text-base font-bold leading-tight">Longitud</h2>
+                  <p class="text-[#888888] text-sm font-normal leading-normal">Más larga es mejor</p>
+                </div>
+              </div>
+              <div class="flex flex-1 gap-3 p-4 flex-col items-center text-center">
+                <span class="material-symbols-outlined text-white text-3xl">wall_art</span>
+                <div class="flex flex-col gap-1">
+                  <h2 class="text-white text-base font-bold leading-tight">Variedad</h2>
+                  <p class="text-[#888888] text-sm font-normal leading-normal">Mezcla mayúsculas, minúsculas, números y símbolos</p>
+                </div>
+              </div>
+              <div class="flex flex-1 gap-3 p-4 flex-col items-center text-center">
+                <span class="material-symbols-outlined text-white text-3xl">fingerprint</span>
+                <div class="flex flex-col gap-1">
+                  <h2 class="text-white text-base font-bold leading-tight">Patrones</h2>
+                  <p class="text-[#888888] text-sm font-normal leading-normal">Evita palabras o secuencias comunes</p>
+                </div>
+              </div>
+            </div>
+            <div class="p-4 mt-4">
+              <button data-navigate="guidedexe" class="px-4 py-2 bg-primary text-background-dark font-bold rounded hover:bg-transparent hover:text-primary border border-primary transition-colors duration-300">Ver Ejercicio Guiado</button>
+              <button data-navigate="comparison" class="ml-4 px-4 py-2 bg-transparent text-primary font-bold rounded hover:bg-primary hover:text-background-dark border border-primary transition-colors duration-300">Ver Comparación</button>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </section>
+  
+  <!-- ============================================ -->
+  <!-- PÁGINA 5: GUIDED EXERCISE -->
+  <!-- ============================================ -->
+  <section id="guidedexe" class="page">
+    <div class="relative flex h-auto min-h-screen w-full flex-col">
+      <div class="layout-container flex h-full grow flex-col">
+        <div class="px-4 sm:px-10 md:px-20 lg:px-40 flex flex-1 justify-center py-10 sm:py-16">
+          <div class="layout-content-container flex flex-col w-full max-w-[960px] flex-1">
+            <h3 class="text-white tracking-light text-2xl font-bold leading-tight px-4 text-left pb-12 pt-5">// CIPHER: GUIDED EXERCISE</h3>
+            <div class="flex flex-col gap-4 mb-12">
+              <p class="text-white text-base font-normal leading-normal px-4">&gt; Agrega un número al final</p>
+              <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 px-4">
+                <label class="flex flex-col min-w-0 flex-1 w-full sm:max-w-xs">
+                  <input id="guided-step1" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-none text-white focus:outline-0 focus:ring-0 border border-neutral-700 bg-transparent focus:border-white h-14 placeholder:text-neutral-500 p-[15px] text-base font-normal leading-normal" placeholder="Enter password" value="mypassword1"/>
+                </label>
+                <div class="flex flex-row items-center gap-4">
+                  <div class="flex flex-col items-center gap-2 py-2.5 text-center w-16">
+                    <div class="p-2.5">
+                      <span id="guided-step1-icon1" class="material-symbols-outlined text-neutral-600 transition-colors duration-300" style="font-size: 24px;">lock_open</span>
+                    </div>
+                  </div>
+                  <div class="flex flex-col items-center gap-2 py-2.5 text-center w-16">
+                    <div class="p-2.5">
+                      <span id="guided-step1-icon2" class="material-symbols-outlined text-yellow-500 transition-colors duration-300" style="font-size: 24px;">lock_person</span>
+                    </div>
+                  </div>
+                  <div class="flex flex-col items-center gap-2 py-2.5 text-center w-16">
+                    <div class="p-2.5">
+                      <span id="guided-step1-icon3" class="material-symbols-outlined text-neutral-600 transition-colors duration-300" style="font-size: 24px;">lock</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="px-4">
+                <div class="flex flex-col gap-2 mt-2 p-3 bg-neutral-900/50 rounded border border-neutral-700/50">
+                  <div class="flex items-center justify-between">
+                    <span class="text-neutral-400 text-xs">Entropía:</span>
+                    <span id="guided-step1-entropy" class="text-white text-xs font-medium">0 bits</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-neutral-400 text-xs">Tiempo estimado (ataque común):</span>
+                    <span id="guided-step1-crack-time" class="text-white text-xs font-medium">-</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-neutral-400 text-xs">Fortaleza:</span>
+                    <span id="guided-step1-strength" class="text-white text-xs font-medium">-</span>
+                  </div>
+                </div>
+              </div>
+              <p id="guided-step1-info" class="text-neutral-400 text-sm font-normal leading-normal pt-1 px-4">[INFO] Aumentó el nivel de sorpresa (entropía).</p>
+            </div>
+            <div class="flex flex-col gap-4 mb-12">
+              <p class="text-white text-base font-normal leading-normal px-4">&gt; Agrega un símbolo</p>
+              <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 px-4">
+                <label class="flex flex-col min-w-0 flex-1 w-full sm:max-w-xs">
+                  <input id="guided-step2" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-none text-white focus:outline-0 focus:ring-0 border border-neutral-700 bg-transparent focus:border-white h-14 placeholder:text-neutral-500 p-[15px] text-base font-normal leading-normal" placeholder="Enter password" value="mypassword1!"/>
+                </label>
+                <div class="flex flex-row items-center gap-4">
+                  <div class="flex flex-col items-center gap-2 py-2.5 text-center w-16">
+                    <div class="p-2.5">
+                      <span id="guided-step2-icon1" class="material-symbols-outlined text-neutral-600 transition-colors duration-300" style="font-size: 24px;">lock_open</span>
+                    </div>
+                  </div>
+                  <div class="flex flex-col items-center gap-2 py-2.5 text-center w-16">
+                    <div class="p-2.5">
+                      <span id="guided-step2-icon2" class="material-symbols-outlined text-neutral-600 transition-colors duration-300" style="font-size: 24px;">lock_person</span>
+                    </div>
+                  </div>
+                  <div class="flex flex-col items-center gap-2 py-2.5 text-center w-16">
+                    <div class="p-2.5">
+                      <span id="guided-step2-icon3" class="material-symbols-outlined text-green-500 transition-colors duration-300" style="font-size: 24px;">lock</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="px-4">
+                <div class="flex flex-col gap-2 mt-2 p-3 bg-neutral-900/50 rounded border border-neutral-700/50">
+                  <div class="flex items-center justify-between">
+                    <span class="text-neutral-400 text-xs">Entropía:</span>
+                    <span id="guided-step2-entropy" class="text-white text-xs font-medium">0 bits</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-neutral-400 text-xs">Tiempo estimado (ataque común):</span>
+                    <span id="guided-step2-crack-time" class="text-white text-xs font-medium">-</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-neutral-400 text-xs">Fortaleza:</span>
+                    <span id="guided-step2-strength" class="text-white text-xs font-medium">-</span>
+                  </div>
+                </div>
+              </div>
+              <p id="guided-step2-info" class="text-neutral-400 text-sm font-normal leading-normal pt-1 px-4">[INFO] La complejidad de la contraseña ha aumentado significativamente.</p>
+            </div>
+            <div class="flex flex-col gap-4 mb-12">
+              <p class="text-white text-base font-normal leading-normal px-4">&gt; Repite el mismo carácter varias veces</p>
+              <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 px-4">
+                <label class="flex flex-col min-w-0 flex-1 w-full sm:max-w-xs">
+                  <input id="guided-step3" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-none text-white focus:outline-0 focus:ring-0 border border-neutral-700 bg-transparent focus:border-white h-14 placeholder:text-neutral-500 p-[15px] text-base font-normal leading-normal" placeholder="Enter password" value="mypassword1!!!!"/>
+                </label>
+                <div class="flex flex-row items-center gap-4">
+                  <div class="flex flex-col items-center gap-2 py-2.5 text-center w-16">
+                    <div class="p-2.5">
+                      <span id="guided-step3-icon1" class="material-symbols-outlined text-neutral-600 transition-colors duration-300" style="font-size: 24px;">lock_open</span>
+                    </div>
+                  </div>
+                  <div class="flex flex-col items-center gap-2 py-2.5 text-center w-16">
+                    <div class="p-2.5">
+                      <span id="guided-step3-icon2" class="material-symbols-outlined text-yellow-500 transition-colors duration-300" style="font-size: 24px;">lock_person</span>
+                    </div>
+                  </div>
+                  <div class="flex flex-col items-center gap-2 py-2.5 text-center w-16">
+                    <div class="p-2.5">
+                      <span id="guided-step3-icon3" class="material-symbols-outlined text-neutral-600 transition-colors duration-300" style="font-size: 24px;">lock</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="px-4">
+                <div class="flex flex-col gap-2 mt-2 p-3 bg-neutral-900/50 rounded border border-neutral-700/50">
+                  <div class="flex items-center justify-between">
+                    <span class="text-neutral-400 text-xs">Entropía:</span>
+                    <span id="guided-step3-entropy" class="text-white text-xs font-medium">0 bits</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-neutral-400 text-xs">Tiempo estimado (ataque común):</span>
+                    <span id="guided-step3-crack-time" class="text-white text-xs font-medium">-</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-neutral-400 text-xs">Fortaleza:</span>
+                    <span id="guided-step3-strength" class="text-white text-xs font-medium">-</span>
+                  </div>
+                </div>
+              </div>
+              <p id="guided-step3-info" class="text-neutral-400 text-sm font-normal leading-normal pt-1 px-4">[INFO] La repetición de caracteres no aumenta mucho la fortaleza.</p>
+            </div>
+            <div class="flex flex-col gap-4">
+              <p class="text-white text-base font-normal leading-normal px-4">&gt; Usa una palabra común, como "password"</p>
+              <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 px-4">
+                <label class="flex flex-col min-w-0 flex-1 w-full sm:max-w-xs">
+                  <input id="guided-step4" class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-none text-white focus:outline-0 focus:ring-0 border border-neutral-700 bg-transparent focus:border-white h-14 placeholder:text-neutral-500 p-[15px] text-base font-normal leading-normal" placeholder="Enter password" value="password"/>
+                </label>
+                <div class="flex flex-row items-center gap-4">
+                  <div class="flex flex-col items-center gap-2 py-2.5 text-center w-16">
+                    <div class="p-2.5">
+                      <span id="guided-step4-icon1" class="material-symbols-outlined text-red-500 transition-colors duration-300" style="font-size: 24px;">lock_open</span>
+                    </div>
+                  </div>
+                  <div class="flex flex-col items-center gap-2 py-2.5 text-center w-16">
+                    <div class="p-2.5">
+                      <span id="guided-step4-icon2" class="material-symbols-outlined text-neutral-600 transition-colors duration-300" style="font-size: 24px;">lock_person</span>
+                    </div>
+                  </div>
+                  <div class="flex flex-col items-center gap-2 py-2.5 text-center w-16">
+                    <div class="p-2.5">
+                      <span id="guided-step4-icon3" class="material-symbols-outlined text-neutral-600 transition-colors duration-300" style="font-size: 24px;">lock</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="px-4">
+                <div class="flex flex-col gap-2 mt-2 p-3 bg-neutral-900/50 rounded border border-neutral-700/50">
+                  <div class="flex items-center justify-between">
+                    <span class="text-neutral-400 text-xs">Entropía:</span>
+                    <span id="guided-step4-entropy" class="text-white text-xs font-medium">0 bits</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-neutral-400 text-xs">Tiempo estimado (ataque común):</span>
+                    <span id="guided-step4-crack-time" class="text-white text-xs font-medium">-</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-neutral-400 text-xs">Fortaleza:</span>
+                    <span id="guided-step4-strength" class="text-white text-xs font-medium">-</span>
+                  </div>
+                </div>
+              </div>
+              <p id="guided-step4-info" class="text-neutral-400 text-sm font-normal leading-normal pt-1 px-4">[INFO] Las palabras de diccionario son vulnerables a ataques.</p>
+            </div>
+            <div class="px-4 mt-8">
+              <button data-navigate="comparison" class="px-4 py-2 bg-primary text-background-dark font-bold rounded hover:bg-transparent hover:text-primary border border-primary transition-colors duration-300">Ver Comparación</button>
+              <button data-navigate="fin" class="ml-4 px-4 py-2 bg-transparent text-primary font-bold rounded hover:bg-primary hover:text-background-dark border border-primary transition-colors duration-300">Finalizar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- ============================================ -->
+  <!-- PÁGINA 6: COMPARISON -->
+  <!-- ============================================ -->
+  <section id="comparison" class="page">
+    <div class="relative flex h-auto min-h-screen w-full flex-col bg-background-dark group/design-root overflow-x-hidden">
+      <div class="layout-container flex h-full grow flex-col">
+        <main class="flex flex-1 flex-col items-center justify-center p-4 sm:p-6 md:p-8">
+          <div class="layout-content-container flex w-full max-w-6xl flex-1 flex-col items-center justify-center">
+            <h1 class="text-white tracking-light text-2xl font-bold leading-tight px-4 text-center pb-8 sm:text-3xl md:text-4xl">Observa cómo cambia la dificultad de adivinarlas.</h1>
+            <div class="grid w-full grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
+              <!-- Card 1: Weak -->
+              <div class="flex flex-col items-center justify-start rounded-xl border border-white/20 p-6 text-center transition-shadow hover:shadow-lg hover:shadow-primary/10">
+                <div class="flex h-32 w-32 items-center justify-center" data-alt="A low, gapped wall representing a weak password">
+                  <svg fill="none" height="40" viewbox="0 0 100 40" width="100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 40V30H15V40H0ZM25 40V30H40V40H25ZM60 40V30H75V40H60ZM85 40V30H100V40H85Z" fill="white"></path>
+                  </svg>
+                </div>
+                <div class="flex w-full flex-col items-center justify-center gap-2 pt-4">
+                  <p class="text-white text-lg font-normal leading-normal">123456</p>
+                  <p class="text-white text-sm font-bold leading-tight">Muy fácil de adivinar.</p>
+                </div>
+              </div>
+              <!-- Card 2: Medium -->
+              <div class="flex flex-col items-center justify-start rounded-xl border border-white/20 p-6 text-center transition-shadow hover:shadow-lg hover:shadow-primary/10">
+                <div class="flex h-32 w-32 items-center justify-center" data-alt="A medium-height, solid wall representing a medium strength password">
+                  <svg fill="none" height="60" viewbox="0 0 100 60" width="100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 60V50H20V40H0V30H20V20H0V10H20V0H40V10H60V0H80V10H100V20H80V30H100V40H80V50H100V60H80V50H60V60H40V50H20V60H0Z" fill="white"></path>
+                  </svg>
+                </div>
+                <div class="flex w-full flex-col items-center justify-center gap-2 pt-4">
+                  <p class="text-white text-lg font-normal leading-normal">Password1</p>
+                  <p class="text-white text-base font-bold leading-tight">Dificultad moderada.</p>
+                </div>
+              </div>
+              <!-- Card 3: Strong -->
+              <div class="flex flex-col items-center justify-start rounded-xl border border-white/20 p-6 text-center transition-shadow hover:shadow-lg hover:shadow-primary/10">
+                <div class="flex h-32 w-32 items-center justify-center" data-alt="A tall, fortified wall representing a strong password">
+                  <svg fill="none" height="80" viewbox="0 0 100 80" width="100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 10H20V0H40V10H60V0H80V10H100V80H80V70H60V80H40V70H20V80H0V10ZM20 20V30H40V20H20ZM60 20V30H80V20H60ZM0 40V50H20V40H0ZM40 40V50H60V40H40ZM80 40V50H100V40H80ZM20 60V70H40V60H20ZM60 60V70H80V60H60Z" fill="white"></path>
+                  </svg>
+                </div>
+                <div class="flex w-full flex-col items-center justify-center gap-2 pt-4">
+                  <p class="text-white text-lg font-normal leading-normal">fT7#dE2!xR</p>
+                  <p class="text-white text-xl font-bold leading-tight">Muy difícil de adivinar.</p>
+                </div>
+              </div>
+            </div>
+            <div class="mt-8">
+              <button data-navigate="fin" class="px-4 py-2 bg-primary text-background-dark font-bold rounded hover:bg-transparent hover:text-primary border border-primary transition-colors duration-300">Finalizar</button>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </section>
+  
+  <!-- ============================================ -->
+  <!-- PÁGINA 7: LIBRE -->
+  <!-- ============================================ -->
+  <section id="libre" class="page">
+    <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+      <div class="flex h-full grow flex-col">
+        <div class="flex flex-1 justify-center px-4 py-5 sm:px-10 md:px-20 lg:px-40">
+          <div class="flex w-full max-w-4xl flex-col items-center">
+            <header class="flex w-full items-center justify-between whitespace-nowrap border-b border-solid border-primary/20 px-4 py-4 sm:px-10">
+              <div class="flex items-center gap-4 text-primary">
+                <div class="size-4">
+                  <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+                  </svg>
+                </div>
+                <h2 class="text-primary text-lg font-bold leading-tight tracking-[-0.015em]">Cipher</h2>
+              </div>
+              <div class="hidden flex-1 justify-end gap-8 md:flex">
+                <div class="flex items-center gap-9">
+                  <a data-navigate="home" class="text-primary text-sm font-medium leading-normal cursor-pointer">Home</a>
+                  <a data-navigate="libre" class="text-primary text-sm font-medium leading-normal cursor-pointer">Modo Libre</a>
+                  <a href="#" class="text-primary text-sm font-medium leading-normal cursor-pointer">Aprende Más</a>
+                  <a href="#" class="text-primary text-sm font-medium leading-normal cursor-pointer">Acerca de</a>
+                </div>
+                <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden border border-primary h-10 px-4 bg-transparent text-primary text-sm font-bold leading-normal tracking-[0.015em]">
+                  <span class="truncate">GitHub</span>
+                </button>
+              </div>
+            </header>
+            <main class="mt-12 flex w-full max-w-xl flex-col items-center px-4 sm:mt-16">
+              <h2 class="text-primary text-center text-2xl font-bold leading-tight tracking-[-0.015em] sm:text-3xl">Modo Libre_</h2>
+              <p class="text-primary mt-3 text-center text-base font-normal leading-normal">Escribe cualquier contraseña para ver un análisis en tiempo real de su fortaleza.</p>
+              <div class="mt-8 w-full">
+                <label class="flex flex-col">
+                  <div class="relative flex w-full flex-1 items-stretch">
+                    <input id="libre-password-input" class="form-input flex h-14 w-full min-w-0 flex-1 resize-none overflow-hidden border border-primary/40 bg-transparent p-4 text-base font-normal leading-normal text-primary placeholder:text-primary/50 focus:border-primary focus:outline-0 focus:ring-0" placeholder="Escribe tu contraseña aquí..." type="password" value="fT7#dE2!xR"/>
+                    <button id="libre-toggle-visibility" class="absolute inset-y-0 right-0 flex items-center pr-4 text-primary/50 hover:text-primary cursor-pointer">
+                      <span class="material-symbols-outlined">visibility</span>
+                    </button>
+                  </div>
+                </label>
+                <div class="mt-2 h-2 w-full bg-primary/20">
+                  <div id="libre-strength-bar" class="h-full w-4/5 bg-green-500 transition-all duration-300"></div>
+                </div>
+              </div>
+              <div class="mt-8 w-full border border-primary/20 p-6">
+                <div class="grid grid-cols-1 gap-y-4">
+                  <div class="flex items-baseline justify-between border-b border-dashed border-primary/20 pb-4">
+                    <p class="text-primary/70 text-sm font-normal leading-normal">Longitud:</p>
+                    <p id="libre-length" class="text-primary text-right text-sm font-normal leading-normal">10</p>
+                  </div>
+                  <div class="flex items-baseline justify-between border-b border-dashed border-primary/20 pb-4">
+                    <p class="text-primary/70 text-sm font-normal leading-normal">Variedad:</p>
+                    <p id="libre-variety" class="text-primary text-right text-sm font-normal leading-normal">4/4 (Mayúsculas, Minúsculas, Números, Símbolos)</p>
+                  </div>
+                  <div class="flex items-baseline justify-between border-b border-dashed border-primary/20 pb-4">
+                    <p class="text-primary/70 text-sm font-normal leading-normal">Entropía (nivel de sorpresa):</p>
+                    <p id="libre-entropy" class="text-primary text-right text-sm font-normal leading-normal">63.1 bits</p>
+                  </div>
+                  <div class="flex flex-col border-b border-dashed border-primary/20 pb-4">
+                    <p class="text-primary/70 text-sm font-normal leading-normal">Tiempo estimado para adivinarla:</p>
+                    <div class="mt-2 pl-4">
+                      <div class="flex items-baseline justify-between">
+                        <p class="text-primary/70 text-xs">Ataque común:</p>
+                        <p id="libre-crack-time-common" class="text-primary text-right text-xs">18 minutos</p>
+                      </div>
+                      <div class="mt-1 flex items-baseline justify-between">
+                        <p class="text-primary/70 text-xs">Ataque avanzado:</p>
+                        <p id="libre-crack-time-advanced" class="text-primary text-right text-xs">5 días</p>
+                      </div>
+                      <div class="mt-1 flex items-baseline justify-between">
+                        <p class="text-primary/70 text-xs">Ataque masivo:</p>
+                        <p id="libre-crack-time-massive" class="text-primary text-right text-xs">9 meses</p>
+                      </div>
+                      <div class="mt-1 flex items-baseline justify-between">
+                        <p class="text-primary/70 text-xs">Ataque cuántico:</p>
+                        <p id="libre-crack-time-quantum" class="text-primary text-right text-xs">2 horas</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-12 w-full">
+                <h3 class="text-primary text-lg font-bold mb-4">Sugerencias de Mejora:</h3>
+                <div id="libre-suggestions" class="flex flex-col gap-2">
+                  <p class="text-primary/70 text-sm">Escribe una contraseña para ver sugerencias.</p>
+                </div>
+              </div>
+              <div class="mt-8 w-full">
+                <h3 class="text-primary text-lg font-bold mb-4">Análisis Detallado:</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="p-4 border border-primary/20 rounded">
+                    <p class="text-primary/70 text-xs mb-2">Longitud:</p>
+                    <p id="libre-length-detail" class="text-primary text-sm font-bold">-</p>
+                    <p class="text-primary/50 text-xs mt-1">Se recomienda al menos 12 caracteres</p>
+                  </div>
+                  <div class="p-4 border border-primary/20 rounded">
+                    <p class="text-primary/70 text-xs mb-2">Variedad:</p>
+                    <p id="libre-variety-detail" class="text-primary text-sm font-bold">-</p>
+                    <p class="text-primary/50 text-xs mt-1">Usa mayúsculas, minúsculas, números y símbolos</p>
+                  </div>
+                  <div class="p-4 border border-primary/20 rounded">
+                    <p class="text-primary/70 text-xs mb-2">Entropía:</p>
+                    <p id="libre-entropy-detail" class="text-primary text-sm font-bold">-</p>
+                    <p class="text-primary/50 text-xs mt-1">Mayor entropía = Mayor seguridad</p>
+                  </div>
+                  <div class="p-4 border border-primary/20 rounded">
+                    <p class="text-primary/70 text-xs mb-2">Score:</p>
+                    <p id="libre-score-detail" class="text-primary text-sm font-bold">-</p>
+                    <p class="text-primary/50 text-xs mt-1">Puntuación de 0-100</p>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-12 flex w-full max-w-md items-start justify-between">
+                <div class="flex flex-col items-center gap-2">
+                  <span class="material-symbols-outlined text-3xl text-primary">lock</span>
+                  <p class="text-primary/70 text-xs font-normal">común</p>
+                </div>
+                <div class="flex flex-col items-center gap-2">
+                  <span class="material-symbols-outlined text-3xl text-primary">lock</span>
+                  <p class="text-primary/70 text-xs font-normal">avanzada</p>
+                </div>
+                <div class="flex flex-col items-center gap-2">
+                  <span class="material-symbols-outlined text-3xl text-primary">lock</span>
+                  <p class="text-primary/70 text-xs font-normal">masivo</p>
+                </div>
+              </div>
+              <div class="mt-16 w-full max-w-xl text-center">
+                <p class="text-xs text-primary/50">
+                  Las contraseñas que escribas se procesan localmente en tu navegador y nunca se envían a nuestros servidores. Tu privacidad está garantizada.
+                </p>
+              </div>
+            </main>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- ============================================ -->
+  <!-- PÁGINA 8: FIN -->
+  <!-- ============================================ -->
+  <section id="fin" class="page">
+    <div class="relative flex h-auto min-h-screen w-full flex-col bg-background-dark group/design-root overflow-x-hidden">
+      <div class="layout-container flex h-full grow flex-col">
+        <div class="flex flex-1 justify-center items-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1 px-4">
+            <div class="flex justify-center mb-8">
+              <span class="material-symbols-outlined text-white" style="font-size: 128px; font-variation-settings: 'FILL' 1;">lock</span>
+            </div>
+            <h1 class="text-white tracking-light text-[32px] font-bold leading-tight text-center pb-3">Fin de la simulación.</h1>
+            <p class="text-white text-base font-normal leading-normal text-center max-w-md mx-auto">
+              La fuerza de una contraseña no depende de la suerte, sino de la lógica y la diversidad.
+            </p>
+            <div class="pt-24 mt-auto">
+              <p class="text-[#888888] text-sm font-normal leading-normal text-center">Cipher © 2025 — Gracias por participar.</p>
+              <div class="mt-8 flex justify-center gap-4">
+                <button data-navigate="home" class="px-4 py-2 bg-primary text-background-dark font-bold rounded hover:bg-transparent hover:text-primary border border-primary transition-colors duration-300">Volver al inicio</button>
+                <button data-navigate="libre" class="px-4 py-2 bg-transparent text-primary font-bold rounded hover:bg-primary hover:text-background-dark border border-primary transition-colors duration-300">Modo Libre</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- ============================================ -->
+  <!-- JavaScript -->
+  <!-- ============================================ -->
+  <script src="js/app.js" type="module"></script>
+</body>
+</html>
+
