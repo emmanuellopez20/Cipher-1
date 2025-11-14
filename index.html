@@ -224,10 +224,27 @@
       50% { background-color: white; }
     }
     
+    /* Responsive base font size */
+    html {
+      font-size: 18px; /* Default for mobile */
+    }
+
+    @media (min-width: 768px) { /* Tablet */
+      html {
+        font-size: 20px;
+      }
+    }
+
+    @media (min-width: 1024px) { /* Desktop */
+      html {
+        font-size: 22px;
+      }
+    }
+    
     /* Body styles */
     body {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 17px;
+      /* font-size is now controlled by html and rem units in Tailwind */
     }
 
     /* Custom styles for #libre section */
@@ -275,7 +292,7 @@
     <main class="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden p-4">
       <!-- Background Padlock Icon -->
       <div aria-hidden="true" class="absolute inset-0 flex items-center justify-center">
-        <span class="material-symbols-outlined text-white/5 text-[400px] md:text-[500px] lg:text-[600px] select-none">lock</span>
+        <span class="material-symbols-outlined text-white/10 text-[400px] md:text-[500px] lg:text-[600px] select-none">lock</span>
       </div>
       <!-- Content Container -->
       <div class="relative z-10 flex h-full flex-col items-center justify-center text-center">
